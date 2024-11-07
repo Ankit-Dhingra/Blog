@@ -18,6 +18,11 @@ mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("DB connected"))
     .catch((error) => console.error("DB connection error:", error));
 
+
+const viewsPath = process.env.NODE_ENV === 'production'
+    ? path.resolve(__dirname) // on Render, views will be at the root level
+    : path.join(__dirname, 'Blogify');
+
 // Set EJS as the view engine
 app.set('views', path.join(__dirname, 'views'));  // Absolute path to 'views'
 app.set('view engine', 'ejs');
@@ -34,7 +39,7 @@ app.use("/blog", blogRoute);
 
 // Home route
 app.get("/", async (req, res) => {
-    const allBlogs = await Blog.find({}); 
+    const allBlogs = await Blog.find({});
     res.render("home", {
         user: req.user,  // Pass user data or null if not authenticated
         blogs: allBlogs
