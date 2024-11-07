@@ -19,9 +19,8 @@ mongoose.connect(process.env.MONGO_URL)
     .catch((error) => console.error("DB connection error:", error));
 
 // Set EJS as the view engine
+app.set('views', path.join(__dirname, 'views'));  // Absolute path to 'views'
 app.set('view engine', 'ejs');
-app.set('views', path.resolve('./views'));
-
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
